@@ -1,13 +1,3 @@
-/target
-/classes
-/checkouts
-pom.xml
-pom.xml.asc
-*.jar
-*.class
-*.iml
-/.lein-*
-/.nrepl-port
-.hgignore
-.hg/
-.idea
+.clj-kondo/
+.cpcache/
+.lsp/
