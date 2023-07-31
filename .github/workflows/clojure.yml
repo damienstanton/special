@@ -33,7 +33,6 @@ jobs:
           clj-kondo: 'latest'       # Clj-kondo
           cljfmt: 'latest'               # cljfmt
           cljstyle: 'latest'             # cljstyle
-          cmd-exe-workaround: 'latest' # Replaces `clojure` with `deps.clj` on Windows
           zprint: 'latest'              # zprint
           
       # Optional step:
