@@ -1,0 +1,72 @@
+name: Clojure
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  clojure:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Prepare java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '20-ea'
+
+      - name: Install clojure tools
+        uses: DeLaGuardo/setup-clojure@11.0
+        with:
+          # Install just one or all simultaneously
+          # The value must indicate a particular version of the tool, or use 'latest'
+          # to always provision the latest version
+          cli: latest              # Clojure CLI based on tools.deps
+          bb: latest                    # Babashka
+          clj-kondo: 'latest'       # Clj-kondo
+          cljfmt: 'latest'               # cljfmt
+          cljstyle: 'latest'             # cljstyle
+          cmd-exe-workaround: 'latest' # Replaces `clojure` with `deps.clj` on Windows
+          zprint: 'latest'              # zprint
+          
+      # Optional step:
+      - name: Cache clojure dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gitlibs
+            ~/.deps.clj
+          # List all files containing dependencies:
+          key: cljdeps-${{ hashFiles('deps.edn') }}
+          # key: cljdeps-${{ hashFiles('deps.edn', 'bb.edn') }}
+          # key: cljdeps-${{ hashFiles('project.clj') }}
+          # key: cljdeps-${{ hashFiles('build.boot') }}
+          restore-keys: cljdeps-
+
+      - name: Execute clojure code
+        run: clojure -e "(+ 1 1)"
+
+      - name: Get babashka version
+        run: bb --version
+
+      - name: Get clj-kondo version
+        run: clj-kondo --version
+
+      - name: Get cljfmt version
+        run: cljfmt --version
+
+      - name: Get cljstyle version
+        # cljstyle is not yet available for windows
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: cljstyle version
+
+      - name: Get zprint version
+        run: zprint --version
