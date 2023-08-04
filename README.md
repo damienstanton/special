@@ -3,6 +3,8 @@
 
 [![Clojars Project](https://img.shields.io/clojars/v/special.svg)](https://clojars.org/special)
 
+[![CI](https://github.com/damienstanton/special/actions/workflows/clojure.yml/badge.svg)](https://github.com/damienstanton/special/actions/workflows/clojure.yml)
+
 Special is a **safe** and **easy to use** library that 
 allows you to separate the logic of handling 
 special conditions from the code in which they arise.
